@@ -25,6 +25,7 @@ import registerCustomFunctions from './functionRegistration.js';
 import { externalize } from './functions.js';
 import initializeRuleEngineWorker from './worker.js';
 
+const formModel = {};
 function disableElement(el, value) {
   el.toggleAttribute('disabled', value === true);
   el.toggleAttribute('aria-readonly', value === true);
@@ -58,6 +59,7 @@ async function fieldChanged(payload, form, generateFormRendition) {
     } = fieldModel;
     const { propertyName, currentValue, prevValue } = change;
     const field = form.querySelector(`#${id}`);
+    const fieldWrapper = field?.closest('.field-wrapper');
     if (!field) {
       return;
     }
@@ -130,7 +132,6 @@ async function fieldChanged(payload, form, generateFormRendition) {
         break;
       case 'label':
         // eslint-disable-next-line no-case-declarations
-        const fieldWrapper = field.closest('.field-wrapper');
         if (fieldWrapper) {
           let labelEl = fieldWrapper.querySelector('.field-label');
           if (labelEl) {
@@ -180,6 +181,9 @@ async function fieldChanged(payload, form, generateFormRendition) {
         break;
       default:
         break;
+    }
+    if (fieldWrapper?.dataset?.subscribe) {
+      fieldWrapper.dataset.fieldModelChanged = JSON.stringify(Math.random());
     }
   });
 }
@@ -260,7 +264,7 @@ export async function loadRuleEngine(formDef, htmlForm, captcha, genFormRenditio
   const ruleEngine = await import('./model/afb-runtime.js');
   const form = ruleEngine.restoreFormInstance(formDef, data);
   window.myForm = form;
-
+  formModel[htmlForm.dataset?.id] = form;
   form.subscribe((e) => {
     handleRuleEngineEvent(e, htmlForm, genFormRendition);
   }, 'fieldChanged');
@@ -305,4 +309,18 @@ export async function initAdaptiveForm(formDef, createForm) {
     data,
   }, createForm);
   return form;
+}
+
+export function subscribe(fieldDiv, callback) {
+  if (callback) {
+    fieldDiv.dataset.subscribe = true;
+    const observer = new MutationObserver((mutationsList) => {
+      mutationsList?.forEach((mutation) => {
+        if (mutation.type === 'attributes' && mutation.attributeName === 'data-field-model-changed') {
+          callback(fieldDiv, formModel[fieldDiv.closest('form')?.dataset?.id]);
+        }
+      });
+    });
+    observer.observe(fieldDiv, { attributes: true });
+  }
 }
