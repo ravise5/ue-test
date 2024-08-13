@@ -7,8 +7,11 @@ export class Modal {
     this.formModel = null;
   }
 
-  createDialog(panel) {
+  createDialog(panel, fd) {
     const dialog = document.createElement('dialog');
+    if (fd?.visible) {
+      dialog.setAttribute('open', '');
+    }
     const dialogContent = document.createElement('div');
     dialogContent.classList.add('modal-content');
     dialogContent.append(...panel.childNodes);
@@ -55,15 +58,15 @@ export class Modal {
     panel.replaceChildren(wrapper);
   }
 
-  decorate(panel) {
-    this.dialog = this.createDialog(panel);
+  decorate(panel, fd) {
+    this.dialog = this.createDialog(panel, fd);
     this.wrapDialog(panel);
   }
 }
 
-export default async function decorate(panel) {
+export default async function decorate(panel, fd) {
   const modal = new Modal();
-  modal.decorate(panel);
+  modal.decorate(panel, fd);
   subscribe(panel, async (fieldDiv, formModel) => {
     modal.setFormModel(formModel);
     if (formModel.getElement(fieldDiv.id).visible === true) {
