@@ -7,9 +7,9 @@ export class Modal {
     this.formModel = null;
   }
 
-  createDialog(panel, fd) {
+  createDialog(panel) {
     const dialog = document.createElement('dialog');
-    if (fd?.visible) {
+    if (panel.closest('form').classList.contains('edit-mode')) {
       dialog.setAttribute('open', '');
     }
     const dialogContent = document.createElement('div');
