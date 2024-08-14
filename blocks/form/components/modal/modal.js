@@ -7,12 +7,10 @@ export class Modal {
     this.formModel = null;
   }
 
-  createDialog(panel) {
+  createDialog(panel, fd) {
     const dialog = document.createElement('dialog');
+    dialog.dataset.visible = fd?.visible;
     dialog.setAttribute('open', '');
-    if (panel?.dataset?.visible === 'false') {
-      dialog.removeAttribute('open');
-    }
     const dialogContent = document.createElement('div');
     dialogContent.classList.add('modal-content');
     dialogContent.append(...panel.childNodes);
