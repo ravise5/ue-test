@@ -90,6 +90,12 @@ function getPropertyModel(fd) {
   return fd[':type'];
 }
 
+function handleModalComponent(formElement) {
+  formElement.querySelectorAll('div.modal > dialog')?.forEach((dialog) => {
+    dialog.setAttribute('open', '');
+  });
+}
+
 function annotateItems(items, formDefinition, formFieldMap) {
   for (let i = items.length - 1; i >= 0; i -= 1) {
     const fieldWrapper = items[i];
@@ -139,6 +145,7 @@ export function annotateFormForEditing(formEl, formDefinition) {
   }
   const formFieldMap = {};
   annotateItems(formEl.childNodes, formDefinition, formFieldMap);
+  handleModalComponent(formEl);
 }
 
 function handleWizardNavigation(wizardEl, navigateTo) {
