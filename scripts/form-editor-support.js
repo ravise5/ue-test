@@ -96,6 +96,15 @@ function handleModalComponent(formElement) {
   });
 }
 
+function annotateContainer(container, fd) {
+  container.setAttribute('data-aue-resource', `urn:aemconnection:${fd.properties['fd:path']}`);
+  container.setAttribute('data-aue-model', fd.fieldType);
+  container.setAttribute('data-aue-label', fd.label?.value || fd.name);
+  container.setAttribute('data-aue-type', 'container');
+  container.setAttribute('data-aue-behavior', 'component');
+  container.setAttribute('data-aue-filter', 'form');
+}
+
 function annotateItems(items, formDefinition, formFieldMap) {
   for (let i = items.length - 1; i >= 0; i -= 1) {
     const fieldWrapper = items[i];
@@ -116,20 +125,10 @@ function annotateItems(items, formDefinition, formFieldMap) {
           } if (fd[':type'] === 'modal') {
             const dialog = fieldWrapper.querySelector('dialog');
             const { childNodes } = dialog.querySelector('.modal-content');
-            dialog.setAttribute('data-aue-resource', `urn:aemconnection:${fd.properties['fd:path']}`);
-            dialog.setAttribute('data-aue-model', fd.fieldType);
-            dialog.setAttribute('data-aue-label', fd.label?.value || fd.name);
-            dialog.setAttribute('data-aue-type', 'container');
-            dialog.setAttribute('data-aue-behavior', 'component');
-            dialog.setAttribute('data-aue-filter', 'form');
+            annotateContainer(dialog, fd);
             annotateItems(childNodes, formDefinition, formFieldMap);
           } else {
-            fieldWrapper.setAttribute('data-aue-resource', `urn:aemconnection:${fd.properties['fd:path']}`);
-            fieldWrapper.setAttribute('data-aue-model', fd.fieldType);
-            fieldWrapper.setAttribute('data-aue-label', fd.label?.value || fd.name);
-            fieldWrapper.setAttribute('data-aue-type', 'container');
-            fieldWrapper.setAttribute('data-aue-behavior', 'component');
-            fieldWrapper.setAttribute('data-aue-filter', 'form');
+            annotateContainer(fieldWrapper, fd);
             annotateItems(fieldWrapper.childNodes, formDefinition, formFieldMap);
           }
         } else {
