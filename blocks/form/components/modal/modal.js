@@ -7,10 +7,8 @@ export class Modal {
     this.formModel = null;
   }
 
-  createDialog(panel, fd) {
+  createDialog(panel) {
     const dialog = document.createElement('dialog');
-    dialog.dataset.visible = fd?.visible;
-    dialog.setAttribute('open', '');
     const dialogContent = document.createElement('div');
     dialogContent.classList.add('modal-content');
     dialogContent.append(...panel.childNodes);
@@ -63,9 +61,9 @@ export class Modal {
   }
 }
 
-export default async function decorate(panel, fd) {
+export default async function decorate(panel) {
   const modal = new Modal();
-  modal.decorate(panel, fd);
+  modal.decorate(panel);
   subscribe(panel, async (fieldDiv, formModel) => {
     modal.setFormModel(formModel);
     if (formModel.getElement(fieldDiv.id).visible === true) {
