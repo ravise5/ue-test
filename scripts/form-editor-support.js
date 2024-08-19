@@ -115,7 +115,7 @@ function annotateItems(items, formDefinition, formFieldMap) {
             annotateFormFragment(fieldWrapper, fd);
           } if (fd[':type'] === 'modal') {
             const dialog = fieldWrapper.querySelector('dialog');
-            const { childNodes } = dialog.querySelector('modal-content');
+            const { childNodes } = dialog.querySelector('.modal-content');
             dialog.setAttribute('data-aue-resource', `urn:aemconnection:${fd.properties['fd:path']}`);
             dialog.setAttribute('data-aue-model', fd.fieldType);
             dialog.setAttribute('data-aue-label', fd.label?.value || fd.name);
