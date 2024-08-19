@@ -287,6 +287,7 @@ export async function applyChanges(event) {
           }
           await generateFormRendition(parentDef, parent, getItems);
           annotateItems(parent.childNodes, formDef, {});
+          handleModalComponent(parent);
           return true;
         }
         return false;
