@@ -254,7 +254,8 @@
                   "jcr:title": "modal",
                   "fieldType": "panel",
                   "fd:viewType": "modal",
-                  "enabled": true
+                  "enabled": true,
+                  "visible": false
                 }
               }
             }
