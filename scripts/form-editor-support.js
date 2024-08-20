@@ -154,7 +154,7 @@ export function annotateFormForEditing(formEl, formDefinition) {
   }
   const formFieldMap = {};
   annotateItems(formEl.childNodes, formDefinition, formFieldMap);
-  handleModalComponent(formEl);
+  // handleModalComponent(formEl);
 }
 
 function handleWizardNavigation(wizardEl, navigateTo) {
@@ -296,7 +296,7 @@ export async function applyChanges(event) {
           }
           await generateFormRendition(parentDef, parent, getItems);
           annotateItems(parent.childNodes, formDef, {});
-          handleModalComponent(parent);
+          // handleModalComponent(parent);
           return true;
         }
         return false;
