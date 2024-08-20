@@ -90,12 +90,6 @@ function getPropertyModel(fd) {
   return fd[':type'];
 }
 
-function handleModalComponent(formElement) {
-  formElement.querySelectorAll('div.modal > dialog')?.forEach((dialog) => {
-    dialog.setAttribute('open', '');
-  });
-}
-
 function annotateContainer(container, fd) {
   container.setAttribute('data-aue-resource', `urn:aemconnection:${fd.properties['fd:path']}`);
   container.setAttribute('data-aue-model', fd.fieldType);
@@ -107,7 +101,7 @@ function annotateContainer(container, fd) {
 
 function annotateItems(items, formDefinition, formFieldMap) {
   for (let i = items.length - 1; i >= 0; i -= 1) {
-    const fieldWrapper = items[i];
+    const fieldWrapper = items[i].classList.contains('modal') ? items[i].parentElement : items[i];
     if (fieldWrapper.classList.contains('field-wrapper')) {
       const { id } = fieldWrapper.dataset;
       const fd = getFieldById(formDefinition, id, formFieldMap);
@@ -154,7 +148,6 @@ export function annotateFormForEditing(formEl, formDefinition) {
   }
   const formFieldMap = {};
   annotateItems(formEl.childNodes, formDefinition, formFieldMap);
-  // handleModalComponent(formEl);
 }
 
 function handleWizardNavigation(wizardEl, navigateTo) {
@@ -296,7 +289,6 @@ export async function applyChanges(event) {
           }
           await generateFormRendition(parentDef, parent, getItems);
           annotateItems(parent.childNodes, formDef, {});
-          // handleModalComponent(parent);
           return true;
         }
         return false;
