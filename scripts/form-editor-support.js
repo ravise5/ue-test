@@ -114,7 +114,7 @@ function annotateContainer(container, fd) {
 function annotateItems(items, formDefinition, formFieldMap) {
   try {
     for (let i = items.length - 1; i >= 0; i -= 1) {
-      const fieldWrapper = items[i];
+      const fieldWrapper = items[i].classList.contains('modal') ? items[i].parentElement : items[i];
       if (fieldWrapper.classList.contains('field-wrapper')) {
         const { id } = fieldWrapper.dataset;
         const fd = getFieldById(formDefinition, id, formFieldMap);
