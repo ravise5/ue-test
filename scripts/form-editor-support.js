@@ -116,7 +116,7 @@ function annotateItems(items, formDefinition, formFieldMap) {
         } else if (fd.fieldType === 'panel') {
           if (fd.properties['fd:fragment']) {
             annotateFormFragment(fieldWrapper, fd);
-          } if (fd[':type'] === 'modal') {
+          } else if (fd[':type'] === 'modal') {
             const dialog = fieldWrapper.querySelector('dialog');
             const { childNodes } = dialog.querySelector('.modal-content');
             annotateContainer(dialog, fd);
