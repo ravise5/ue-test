@@ -1,5 +1,5 @@
 mountpoints:
   /:
-    url: https://author-p139852-e1420611.adobeaemcloud.com/bin/franklin.delivery/ravise5/ue-test/main
+    url: https://author-p133911-e1313554.adobeaemcloud.com/bin/franklin.delivery/ravise5/ue-test/main
     type: "markup"
     suffix: ".html"
