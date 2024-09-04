@@ -76,11 +76,6 @@ form:not(.edit-mode) [data-visible="false"] {
     display: none !important;
 }
 
-form.edit-mode .modal dialog {
-    display: inline-block;
-    position: relative;
-}
-
 main .form-container {
     background-color: var(--form-background-color);
     padding: var(--form-padding);
